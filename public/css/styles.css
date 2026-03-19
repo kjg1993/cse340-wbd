@@ -196,6 +196,38 @@ main h1 {
   background-color: #fff;
 }
 
+/* =============================================
+INVENTORY CLASSIFICATION VIEW (CARDS)
+============================================ */
+/* Usamos el ID directamente, sin 'main' adelante, por si el HTML está mal ubicado */
+ul#inv-display {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    list-style-type: none !important;
+    padding: 20px !important;
+    margin: 0 auto !important;
+    gap: 20px !important;
+    background-color: #fff;
+}
+
+ul#inv-display li {
+    flex: 0 0 300px !important;
+    border: 1px solid #ccc !important;
+    border-radius: 10px !important;
+    overflow: hidden;
+    background-color: white;
+    text-align: center;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+}
+
+ul#inv-display li img {
+    width: 100% !important;
+    height: 200px !important;
+    object-fit: contain !important;
+}
+
 /* ============================================
    UPGRADES - MOBILE
    ============================================ */
