@@ -21,4 +21,37 @@ invCont.buildByClassificationId = async function (req, res, next) {
   })
 }
 
+/* ***************************
+ * Deliver Item Detail View
+ * ************************** */
+invCont.getItemDetail = async function (req, res, next) {
+  const inv_id = req.params.invId
+  
+  const data = await invModel.getInventoryByInventoryId(inv_id)
+  
+  if (!data) {
+    const err = new Error('Vehicle not found')
+    err.status = 404
+    return next(err)
+  }
+
+  const html = await utilities.buildItemDetailHtml(data)
+  let nav = await utilities.getNav()
+  
+  res.render("./inventory/detail", {
+    title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
+    nav,
+    grid: html, 
+  })
+}
+
+/* ***************************
+ * Trigger an intentional 500 error
+ * ************************** */
+invCont.throwError = async (req, res) => {
+  const error = new Error("Intentional 500 error testing")
+  error.status = 500
+  throw error
+}
+
 export default invCont 

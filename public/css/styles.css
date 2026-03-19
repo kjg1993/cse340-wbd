@@ -14,11 +14,11 @@
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.6;
   color: #333;
   background-color: #f0f0f0;
-  background-image: url('/images/site/small_check.jpg');
+  background-image: url("/images/site/small_check.jpg");
   background-repeat: repeat;
 }
 
@@ -201,31 +201,31 @@ INVENTORY CLASSIFICATION VIEW (CARDS)
 ============================================ */
 /* Usamos el ID directamente, sin 'main' adelante, por si el HTML está mal ubicado */
 ul#inv-display {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    list-style-type: none !important;
-    padding: 20px !important;
-    margin: 0 auto !important;
-    gap: 20px !important;
-    background-color: #fff;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  list-style-type: none !important;
+  padding: 20px !important;
+  margin: 0 auto !important;
+  gap: 20px !important;
+  background-color: #fff;
 }
 
 ul#inv-display li {
-    flex: 0 0 300px !important;
-    border: 1px solid #ccc !important;
-    border-radius: 10px !important;
-    overflow: hidden;
-    background-color: white;
-    text-align: center;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+  flex: 0 0 300px !important;
+  border: 1px solid #ccc !important;
+  border-radius: 10px !important;
+  overflow: hidden;
+  background-color: white;
+  text-align: center;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 ul#inv-display li img {
-    width: 100% !important;
-    height: 200px !important;
-    object-fit: contain !important;
+  width: 100% !important;
+  height: 200px !important;
+  object-fit: contain !important;
 }
 
 /* ============================================
@@ -269,15 +269,33 @@ ul#inv-display li img {
    FOOTER
    ============================================ */
 footer {
-  padding: 20px;
+  padding: 30px 20px;
   background-color: #fff;
   border-top: 1px solid #eee;
 }
 
 .copyright {
+  display: block;
+  margin-bottom: 20px;
   font-size: 0.9rem;
   color: #666;
-  background-color: #fff;
+}
+
+footer a[href="/inv/trigger-error"] {
+  display: inline-block;
+  font-size: 0.9rem;
+  color: #c40000; 
+  text-decoration: none;
+  font-weight: bold;
+  border: 1.5px solid #c40000; 
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+footer a[href="/inv/trigger-error"]:hover {
+  background-color: #c40000;
+  color: #fff;
 }
 
 /* ============================================
@@ -285,17 +303,16 @@ footer {
    ============================================ */
 
 @media screen and (min-width: 768px) {
-  
   #top-header {
     padding: 20px 30px;
   }
-  
-   .site-logo {
-    height: 32px; 
+
+  .site-logo {
+    height: 32px;
   }
-  
+
   .site-text {
-    display: none; 
+    display: none;
   }
 
   nav a {
@@ -303,15 +320,15 @@ footer {
     margin: 16px;
     font-size: 1rem;
   }
-  
+
   main {
     padding: 30px;
   }
-  
+
   main h1 {
     font-size: 2rem;
   }
-  
+
   /* ==========================================
      HERO - LARGE SCREEN
      ========================================== */
@@ -319,32 +336,32 @@ footer {
     min-height: 400px;
     align-items: flex-start;
   }
-  
+
   .hero-content {
     top: 20px;
     left: 20px;
     padding: 20px;
     max-width: 300px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
-  
+
   .hero-content h2 {
     font-size: 1.8rem;
   }
-  
+
   .hero-content ul {
     margin-bottom: 20px;
   }
-  
+
   .hero-image {
     justify-content: flex-end;
   }
-  
+
   .hero-image img {
     max-width: 70%;
     margin-left: auto;
   }
-  
+
   /* ==========================================
      CONTENT GRID - LARGE SCREEN
      ========================================== */
@@ -357,13 +374,42 @@ footer {
   .upgrades h2 {
     font-size: 1.4rem;
   }
-  
+
   .upgrades-grid {
     gap: 20px;
   }
-  
+
   .upgrade-image {
     min-height: 120px;
+  }
+}
+
+/* ==========================================
+  Detail View 
+ ========================================== */
+#detail-display {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+#detail-display img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 800px) {
+  #detail-display {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  #detail-display img {
+    width: 50%;
+  }
+  #detail-info {
+    width: 50%;
+    padding-left: 20px;
   }
 }
 
@@ -371,16 +417,15 @@ footer {
    MEDIA QUERY - EXTRA LARGE SCREENS
    ============================================ */
 @media screen and (min-width: 1024px) {
-  
   #wrapper {
     margin: 40px auto;
   }
-  
+
   .hero-content {
     left: 40px;
     top: 40px;
   }
-  
+
   .hero-image img {
     max-width: 60%;
   }
