@@ -19,13 +19,13 @@ if (process.env.NODE_ENV === "development") {
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
-      rejectUnauthorized: false, 
+      rejectUnauthorized: false,
     },
   });
 }
 
-export default {
-  async query(text, params) {
+const db = {
+  query: async (text, params) => {
     try {
       const res = await pool.query(text, params);
       if (process.env.NODE_ENV === "development") {
@@ -38,3 +38,6 @@ export default {
     }
   },
 };
+
+export { pool }; 
+export default db;
