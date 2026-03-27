@@ -1,0 +1,27 @@
+<div class="management-container">
+  <h1><%= title %></h1>
+  
+  <% if (typeof messages !== 'undefined') { %>
+    <% if (messages.success) { %>
+      <div class="success-message">
+        <%= messages.success %>
+      </div>
+    <% } %>
+    <% if (messages.error) { %>
+      <div class="error-message">
+        <%= messages.error %>
+      </div>
+    <% } %>
+  <% } %>
+
+  <div class="management-links">
+    <ul>
+      <li>
+        <a href="/inv/add-classification">Add New Classification</a>
+      </li>
+      <li>
+        <a href="/inv/add-inventory">Add New Vehicle</a>
+      </li>
+    </ul>
+  </div>
+</div>

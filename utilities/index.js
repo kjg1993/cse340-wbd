@@ -24,8 +24,6 @@ Util.getNav = async function (req, res, next) {
   return list;
 };
 
-export default Util;
-
 /* **************************************
  * Build the classification view HTML
  * ************************************ */
@@ -109,6 +107,24 @@ Util.buildItemDetailHtml = async function(data) {
   return display
 }
 
+/* **************************************
+ * Build the classification select list
+ * ************************************ */
+Util.buildClassificationList = async function (classification_id = null) {
+  let data = await getClassifications();
+  let classificationList =
+    '<select name="classification_id" id="classificationList" required>';
+  classificationList += "<option value=''>Choose a Classification</option>";
+  data.rows.forEach((row) => {
+    classificationList += '<option value="' + row.classification_id + '"';
+    if (classification_id != null && row.classification_id == classification_id) {
+      classificationList += " selected ";
+    }
+    classificationList += ">" + row.classification_name + "</option>";
+  });
+  classificationList += "</select>";
+  return classificationList;
+};
 
 /* ****************************************
  * Middleware For Handling Errors
@@ -117,3 +133,6 @@ Util.buildItemDetailHtml = async function(data) {
  **************************************** */
 Util.handleErrors = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
+
+
+export default Util;

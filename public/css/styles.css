@@ -99,7 +99,6 @@ body {
   text-decoration: none;
 }
 
-/* Estilos base del logo */
 .siteName a {
   display: flex;
   align-items: center;
@@ -249,7 +248,6 @@ main h1 {
 /* =============================================
 INVENTORY CLASSIFICATION VIEW (CARDS)
 ============================================ */
-/* Usamos el ID directamente, sin 'main' adelante, por si el HTML está mal ubicado */
 ul#inv-display {
   display: flex !important;
   flex-direction: row !important;
@@ -409,7 +407,7 @@ footer a[href="/inv/trigger-error"]:hover {
 
 input:required:invalid,
 input:focus:invalid {
-  border: 2px solid #e74c3c; /* Rojo */
+  border: 2px solid #e74c3c; 
   background-color: #fdf2f2;
 }
 
@@ -428,7 +426,376 @@ input:required:valid {
   border-left: 3px solid #3498db;
 }
 
-/* Reutilizamos los estilos de .login-form que ya tienes */
+/* **********************************
+ * General Inventory Form Containers
+ * ********************************* */
+.management-container, 
+.add-class-container, 
+.add-inv-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+    margin-top: 0;
+    color: #222;
+    text-align: center;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+/* **********************************
+ * Management View Styles
+ * ********************************* */
+.management-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.management-links li {
+    margin-bottom: 15px;
+}
+
+.management-links a {
+    display: block;
+    text-align: center;
+    padding: 15px;
+    background-color: #4a69bd;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.management-links a:hover {
+    background-color: #1e3799;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(74, 105, 189, 0.3);
+}
+
+/* **********************************
+ * Form Layout 
+ * ********************************* */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 15px;
+    font-weight: 600;
+    color: #444;
+    font-size: 0.95rem;
+}
+
+form span {
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 8px;
+    font-style: italic;
+}
+
+
+input[type="text"], 
+input[type="number"], 
+input[type="email"], 
+input[type="password"],
+select {
+    padding: 12px 15px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #fcfcfc;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #4a69bd;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(74, 105, 189, 0.1);
+}
+
+/* **********************************
+ * Rules for New Inventory 
+ * ********************************* */
+form button {
+    margin-top: 30px;
+    padding: 14px;
+    background-color: #079992;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+form button:hover {
+    background-color: #0b8e87;
+}
+
+.error-list {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-left: 5px solid #d32f2f;
+    list-style: none;
+}
+
+.error-list li {
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+/* ============================================
+   PROFESSIONAL MESSAGE STYLES
+   ============================================ */
+
+.message-container {
+  margin: 0 0 30px 0;
+  position: relative;
+}
+
+.success-message {
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  color: white;
+  padding: 18px 25px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+  border-left: 5px solid #f1c40f;
+  position: relative;
+  animation: slideInDown 0.5s ease-out;
+  backdrop-filter: blur(5px);
+}
+
+.error-message {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  color: white;
+  padding: 18px 25px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+  border-left: 5px solid #f39c12;
+  position: relative;
+  animation: slideInDown 0.5s ease-out;
+}
+
+.success-message::before {
+  content: "✓";
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-right: 12px;
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.error-message::before {
+  content: "✗";
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-right: 12px;
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 50%;
+  text-align: center;
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOutUp {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-20px);
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.management-container .success-message,
+.management-container .error-message {
+  margin-bottom: 30px;
+  border-radius: 12px;
+}
+
+.management-links {
+  margin-top: 10px;
+}
+
+.management-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #4a69bd 0%, #3b55a0 100%);
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.management-links a::before {
+  content: "→";
+  position: absolute;
+  left: -30px;
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.management-links a:hover::before {
+  left: 25px;
+  opacity: 1;
+}
+
+.management-links a:hover {
+  padding-left: 40px;
+  background: linear-gradient(135deg, #5a7bd0 0%, #4a69bd 100%);
+}
+
+.management-container h1 {
+  font-size: 2rem;
+  color: #2c3e50;
+  border-bottom: 3px solid #4a69bd;
+  display: inline-block;
+  padding-bottom: 10px;
+  margin-bottom: 30px;
+  text-align: center;
+  width: 100%;
+  position: relative;
+}
+
+.management-container h1::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: #f39c12;
+  border-radius: 2px;
+}
+
+.management-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 40px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.management-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+.messages-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .success-message,
+  .error-message {
+    padding: 14px 18px;
+    font-size: 0.95rem;
+  }
+  
+  .success-message::before,
+  .error-message::before {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 1rem;
+  }
+  
+  .management-container {
+    margin: 30px 20px;
+    padding: 25px;
+  }
+  
+  .management-container h1 {
+    font-size: 1.6rem;
+  }
+  
+  .management-links a {
+    padding: 12px;
+    font-size: 1rem;
+  }
+}
+
+/* Estilo para mensajes de advertencia (opcional) */
+.warning-message {
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+  color: white;
+  padding: 18px 25px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+  border-left: 5px solid #2c3e50;
+  animation: slideInDown 0.5s ease-out;
+}
+
+.warning-message::before {
+  content: "⚠";
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-right: 12px;
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 50%;
+  text-align: center;
+}
 
 /* ============================================
    MEDIA QUERIES - LARGE SCREENS
