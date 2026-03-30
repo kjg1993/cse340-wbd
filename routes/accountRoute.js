@@ -12,18 +12,25 @@ router.get("/register", utilities.handleErrors(accountController.buildRegister))
 
 // Route to process the resgister (POST)
 router.post('/register',
-    regValidate.registrationRules(),
-    regValidate.checkRegData,
-    utilities.handleErrors(accountController.registerAccount));
+  regValidate.registrationRules(),
+  regValidate.checkRegData,
+  utilities.handleErrors(accountController.registerAccount));
 
-// Proceso de Login con validación
-router.post(
-  "/login",
-  regValidate.loginRules(),     
-  regValidate.checkLoginData,   
-  (req, res) => {
-    res.status(200).send('Login process successful (Server-side validated!)')
-  }
+router.get("/",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.buildAccountManagement));
+
+// Route for Logout
+router.get("/logout", (req, res) => {
+  res.clearCookie("jwt")
+  res.redirect("/")
+})
+
+//Route to process to intent to login 
+router.post("/login",
+  regValidate.loginRules(),
+  regValidate.checkLoginData,
+  utilities.handleErrors(accountController.accountLogin)
 )
 
 export default router;

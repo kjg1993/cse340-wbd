@@ -7,6 +7,7 @@ import pgSession from "connect-pg-simple"
 import flash from 'connect-flash' 
 import expressMessages from 'express-messages' 
 import bodyParser from "body-parser"
+import cookieParser from "cookie-parser"
 
 const app = express()
 const PostgresStore = pgSession(session)
@@ -47,6 +48,10 @@ app.use(function(req, res, next){
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+
+app.use(cookieParser());
+
+app.use(utilities.checkJWTToken);
 
 /* ***********************
  * Routes & Static Files

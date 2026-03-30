@@ -1,0 +1,101 @@
+<div class="add-inv-container">
+  <h1><%= title %></h1>
+  
+  <% if (typeof messages !== 'undefined' && messages.error) { %>
+    <div class="error-message"><%= messages.error %></div>
+  <% } %>
+  
+  <% if (typeof errors !== 'undefined' && errors && errors.length > 0) { %>
+    <div class="error-list">
+      <% errors.forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <form id="updateForm" action="/inv/update" method="post">
+    <input type="hidden" name="inv_id" <% if(locals.inv_id) { %> value="<%= locals.inv_id %>" <% } %>>
+    <label>Classification *</label>
+    <%- classificationSelect %>
+
+    <label>Make *</label>
+    <input 
+      type="text" 
+      name="inv_make" 
+      required 
+      value="<%= inv_make %>" 
+    />
+
+    <label>Model *</label>
+    <input 
+      type="text" 
+      name="inv_model" 
+      required 
+      value="<%= inv_model %>" 
+    />
+
+    <label>Year *</label>
+    <input 
+      type="number" 
+      name="inv_year" 
+      required 
+      min="1900" 
+      max="2025"
+      value="<%= inv_year %>" 
+    />
+
+    <label>Price *</label>
+    <input 
+      type="number" 
+      name="inv_price" 
+      required 
+      min="0" 
+      step="1"
+      value="<%= inv_price %>" 
+    />
+
+    <label>Miles *</label>
+    <input 
+      type="number" 
+      name="inv_miles" 
+      required 
+      min="0"
+      value="<%= inv_miles %>" 
+    />
+
+    <label>Color *</label>
+    <input 
+      type="text" 
+      name="inv_color" 
+      required 
+      value="<%= inv_color %>" 
+    />
+
+    <label>Description *</label>
+    <textarea 
+      name="inv_description" 
+      required 
+      rows="4"
+    ><%= inv_description %></textarea>
+
+    <label>Image Path</label>
+    <input 
+      type="text" 
+      name="inv_image" 
+      value="<%= inv_image %>" 
+    />
+    <span>Leave blank to use default image</span>
+
+    <label>Thumbnail Path</label>
+    <input 
+      type="text" 
+      name="inv_thumbnail" 
+      value="<%= inv_thumbnail %>" 
+    />
+    <span>Leave blank to use default thumbnail</span>
+
+    <button type="submit" id="submitButton" disabled>Update Vehicle</button>
+  </form>
+</div>
+
+<script src="../../js/inv-update.js"></script>

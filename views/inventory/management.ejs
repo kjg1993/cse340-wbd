@@ -1,27 +1,28 @@
 <div class="management-container">
   <h1><%= title %></h1>
-  
-  <% if (typeof messages !== 'undefined') { %>
-    <% if (messages.success) { %>
-      <div class="success-message">
-        <%= messages.success %>
-      </div>
-    <% } %>
-    <% if (messages.error) { %>
-      <div class="error-message">
-        <%= messages.error %>
-      </div>
-    <% } %>
-  <% } %>
 
+  <%- messages() %>
   <div class="management-links">
     <ul>
-      <li>
-        <a href="/inv/add-classification">Add New Classification</a>
-      </li>
-      <li>
-        <a href="/inv/add-inventory">Add New Vehicle</a>
-      </li>
+      <li><a href="/inv/add-classification">Add New Classification</a></li>
+      <li><a href="/inv/add-inventory">Add New Vehicle</a></li>
     </ul>
   </div>
+
+  <div class="inventory-lookup">
+    <h2>Manage Inventory</h2>
+    <p>
+      Select a classification from the list to see the items belonging to the
+      classification.
+    </p>
+
+    <%- classificationSelect %>
+    <table id="inventoryDisplay"></table>
+
+    <noscript>
+      <p>JavaScript must be enabled to use this page.</p>
+    </noscript>
+  </div>
 </div>
+
+<script src="../../js/script.js"></script>
