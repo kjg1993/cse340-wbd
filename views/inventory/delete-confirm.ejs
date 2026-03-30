@@ -1,0 +1,47 @@
+<div class="add-inv-container">
+  <h1><%= title %></h1>
+  
+  <p class="warning-text">Confirm Deletion - The delete is permanent.</p>
+
+  <% if (typeof messages !== 'undefined' && messages.error) { %>
+    <div class="error-message"><%= messages.error %></div>
+  <% } %>
+
+  <form id="deleteForm" action="/inv/delete" method="post">
+    <input type="hidden" name="inv_id" <% if(locals.inv_id) { %> value="<%= locals.inv_id %>" <% } %>>
+
+    <label>Make</label>
+    <input 
+      type="text" 
+      name="inv_make" 
+      readonly 
+      value="<%= inv_make %>" 
+    />
+
+    <label>Model</label>
+    <input 
+      type="text" 
+      name="inv_model" 
+      readonly 
+      value="<%= inv_model %>" 
+    />
+
+    <label>Year</label>
+    <input 
+      type="number" 
+      name="inv_year" 
+      readonly
+      value="<%= inv_year %>" 
+    />
+
+    <label>Price</label>
+    <input 
+      type="number" 
+      name="inv_price" 
+      readonly
+      value="<%= inv_price %>" 
+    />
+
+    <button type="submit" class="btn-delete">Delete Vehicle</button>
+  </form>
+</div>

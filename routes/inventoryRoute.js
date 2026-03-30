@@ -64,4 +64,10 @@ router.post(
   utilities.handleErrors(invController.addInventory)
 )
 
+// Path to display the delete confirmation view (GET)
+router.get("/delete/:inv_id", utilities.handleErrors(invController.deleteView))
+
+// Path to process the deletion (POST)
+router.post("/delete", utilities.handleErrors(invController.deleteItem))
+
 export default router

@@ -105,3 +105,32 @@ export async function updateInventory(
     console.error("model error: " + error)
   }
 }
+
+/* ***************************
+ * Delete Inventory Item
+ * ************************** */
+export async function deleteInventoryItem(inv_id) {
+  try {
+    const sql = 'DELETE FROM inventory WHERE inv_id = $1'
+    const data = await pool.query(sql, [inv_id])
+    return data 
+  } catch (error) {
+    console.error("model error: " + error)
+    return null 
+  }
+}
+
+/* ***************************
+ * Delete Classification (Only if empty)
+ * ************************** */
+export async function deleteEmptyClassification(classification_id) {
+  try {
+    const sql = `DELETE FROM public.classification 
+                 WHERE classification_id = $1 
+                 AND NOT EXISTS (SELECT 1 FROM public.inventory WHERE classification_id = $1)`
+    return await pool.query(sql, [classification_id])
+  } catch (error) {
+    console.error("Error deleting empty classification: " + error)
+    return null
+  }
+}

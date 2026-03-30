@@ -628,6 +628,29 @@ form button:hover {
   text-align: center;
 }
 
+.warning-text {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 15px;
+    border-left: 5px solid #ffeeba;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.btn-delete {
+    background-color: #d32f2f !important; 
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+}
+
+.btn-delete:hover {
+    background-color: #b71c1c !important;
+}
+
 @keyframes slideInDown {
   from {
     transform: translateY(-30px);
