@@ -4,3 +4,10 @@
   
   <p><a href="/inv/trigger-error">Error Link</a></p>
 </footer>
+<script>
+  window.onpageshow = function(event) {
+    if (event.persisted) {
+      window.location.reload();
+    }
+  };
+</script>

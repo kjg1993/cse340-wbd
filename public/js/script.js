@@ -28,13 +28,12 @@ function buildInventoryList(data) {
   let inventoryDisplay = document.getElementById("inventoryDisplay");
   
   let dataTable = '<thead>';
-  dataTable += '<tr><th>Vehicle Name</th><td>&nbsp;</td><td>&nbsp;</td></tr>';
+  dataTable += '<tr><th>Vehicle Name</th><th>Action</th><th>Action</th></tr>';
   dataTable += '</thead>';
   
   dataTable += '<tbody>';
   
   data.forEach(function (element) {
-    console.log(element.inv_id + ", " + element.inv_model);
     dataTable += `<tr><td>${element.inv_make} ${element.inv_model}</td>`;
     dataTable += `<td><a href='/inv/edit/${element.inv_id}' title='Click to update'>Modify</a></td>`;
     dataTable += `<td><a href='/inv/delete/${element.inv_id}' title='Click to delete'>Delete</a></td></tr>`;

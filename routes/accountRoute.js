@@ -33,4 +33,25 @@ router.post("/login",
   utilities.handleErrors(accountController.accountLogin)
 )
 
+// Ruta para entregar la vista de actualización
+router.get("/update/:account_id", utilities.handleErrors(accountController.buildUpdate))
+
+
+router.post(
+  "/update",
+  regValidate.updateRules(),
+  regValidate.checkUpdateData,
+  utilities.handleErrors(accountController.updateAccount)
+)
+
+
+router.post(
+  "/password",
+  regValidate.passwordRules(),
+  regValidate.checkUpdateData, 
+  utilities.handleErrors(accountController.updatePassword)
+)
+// Ruta de Logout (Tarea 6)
+router.get("/logout", accountController.accountLogout)
+
 export default router;

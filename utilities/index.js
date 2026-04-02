@@ -82,30 +82,30 @@ Util.buildClassificationGrid = async function (data) {
 /* **************************************
 * Build the vehicle detail view
 * ************************************ */
-Util.buildItemDetailHtml = async function(data) {
+Util.buildItemDetailHtml = async function (data) {
   let display = '<div id="detail-display">'
 
   display += `<img src="${data.inv_image}" alt="${data.inv_make} ${data.inv_model} on CSE Motors">`
-  
+
   display += '<article id="detail-info">'
   display += `<h2>${data.inv_make} ${data.inv_model} Information</h2>`
-  
-  const price = new Intl.NumberFormat('en-US', { 
-    style: 'currency', 
+
+  const price = new Intl.NumberFormat('en-US', {
+    style: 'currency',
     currency: 'USD',
-    maximumFractionDigits: 0 
+    maximumFractionDigits: 0
   }).format(data.inv_price)
   display += `<p><strong>Price:</strong> ${price}</p>`
-  
+
   display += `<p><strong>Description:</strong> ${data.inv_description}</p>`
   display += `<p><strong>Color:</strong> ${data.inv_color}</p>`
-  
+
   const miles = new Intl.NumberFormat('en-US').format(data.inv_miles)
   display += `<p><strong>Mileage:</strong> ${miles} miles</p>`
-  
+
   display += '</article>'
-  display += '</div>' 
-  
+  display += '</div>'
+
   return display
 }
 
@@ -132,24 +132,29 @@ Util.buildClassificationList = async function (classification_id = null) {
 * Middleware to check token validity
 **************************************** */
 Util.checkJWTToken = (req, res, next) => {
- if (req.cookies.jwt) {
-  jwt.verify(
-   req.cookies.jwt,
-   process.env.ACCESS_TOKEN_SECRET,
-   function (err, accountData) {
-    if (err) {
-     req.flash("notice", "Please log in")
-     res.clearCookie("jwt")
-     return res.redirect("/account/login")
-    }
-    res.locals.accountData = accountData
-    res.locals.loggedin = 1
+  if (req.cookies.jwt) {
+    jwt.verify(
+      req.cookies.jwt,
+      process.env.ACCESS_TOKEN_SECRET,
+      function (err, accountData) {
+        if (err) {
+          req.flash("notice", "Please log in")
+          res.clearCookie("jwt", { path: '/' })
+          res.locals.loggedin = 0
+          res.locals.accountData = null
+          return res.redirect("/account/login")
+        }
+        res.locals.accountData = accountData
+        res.locals.loggedin = 1
+        next()
+      })
+  } else {
+    res.locals.loggedin = 0
+    res.locals.accountData = null
     next()
-   })
- } else {
-  next()
- }
+  }
 }
+
 
 /* ****************************************
  * Check Login
@@ -161,7 +166,28 @@ Util.checkLogin = (req, res, next) => {
     req.flash("notice", "Please log in.")
     return res.redirect("/account/login")
   }
- }
+}
+
+/* ****************************************
+* Check Account Type 
+**************************************** */
+Util.checkAccountType = (req, res, next) => {
+  // Prevent Back-Button Cache
+  res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+
+  if (res.locals.loggedin) {
+    const account_type = res.locals.accountData.account_type
+    if (account_type === "Employee" || account_type === "Admin") {
+      next()
+    } else {
+      req.flash("notice", "Please log in with an Employee or Admin account.")
+      res.redirect("/account/login")
+    }
+  } else {
+    req.flash("notice", "Please log in.")
+    res.redirect("/account/login")
+  }
+}
 
 /* ****************************************
  * Middleware For Handling Errors

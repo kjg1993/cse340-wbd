@@ -2,72 +2,111 @@ import express from "express"
 const router = new express.Router()
 import invController from "../controllers/invController.js"
 import utilities from "../utilities/index.js"
-import invCont from "../controllers/invController.js"
 import invValidate from "../utilities/inventory-validation.js"
 
 // ****************************************
-// View Delivery Routes (GET)
+// View Delivery Routes (GET) - PROTECTED
 // ****************************************
 
-// Route for the management view 
-router.get("/", utilities.handleErrors(invController.buildManagement))
+// Main inventory management view (Middleware applied)
+router.get(
+  "/", 
+  utilities.checkAccountType, 
+  utilities.handleErrors(invController.buildManagement)
+)
 
-// Route to add classification
-router.get("/add-classification", utilities.handleErrors(invController.buildAddClassification))
+// Add classification view (Middleware applied)
+router.get(
+  "/add-classification", 
+  utilities.checkAccountType, 
+  utilities.handleErrors(invController.buildAddClassification)
+)
 
-// Path to add inventory 
-router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventory))
+// Add inventory item view (Middleware applied)
+router.get(
+  "/add-inventory", 
+  utilities.checkAccountType, 
+  utilities.handleErrors(invController.buildAddInventory)
+)
 
-// Route to display vehicles by classification
-router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId))
-
-// Route to view details of a specific vehicle
-router.get("/detail/:invId", utilities.handleErrors(invController.getItemDetail))
-
-// Route to test the intentional 500 error
-router.get("/trigger-error", utilities.handleErrors(invController.throwError))
-
-// Ruta para obtener el inventario por clasificación en formato JSON
-router.get("/getInventory/:classification_id", utilities.handleErrors(invCont.getInventoryJSON))
-
-/* ****************************************
-* Route to deliver the edit view (GET)
- * *************************************** */
+// Edit inventory item view (Middleware applied)
 router.get(
   "/edit/:inv_id", 
+  utilities.checkAccountType, 
   utilities.handleErrors(invController.editInventoryView)
 )
 
-router.post(
-  "/update/",
-  invValidate.inventoryRules(),
-  invValidate.checkUpdateData,
-  utilities.handleErrors(invController.updateInventory)
+// Delete confirmation view (Middleware applied)
+router.get(
+  "/delete/:inv_id", 
+  utilities.checkAccountType, 
+  utilities.handleErrors(invController.deleteView)
 )
 
 // ****************************************
-// Data Processing Routes (POST)
+// Data Processing Routes (POST) - PROTECTED
 // ****************************************
 
+// Process new classification
 router.post(
   "/add-classification",
+  utilities.checkAccountType,
   invValidate.classificationRules(),
   invValidate.checkData,
   utilities.handleErrors(invController.addClassification)
 )
 
-
+// Process new inventory item
 router.post(
   "/add-inventory",
+  utilities.checkAccountType,
   invValidate.inventoryRules(),
   invValidate.checkData,
   utilities.handleErrors(invController.addInventory)
 )
 
-// Path to display the delete confirmation view (GET)
-router.get("/delete/:inv_id", utilities.handleErrors(invController.deleteView))
+// Process inventory update
+router.post(
+  "/update/",
+  utilities.checkAccountType,
+  invValidate.inventoryRules(),
+  invValidate.checkUpdateData,
+  utilities.handleErrors(invController.updateInventory)
+)
 
-// Path to process the deletion (POST)
-router.post("/delete", utilities.handleErrors(invController.deleteItem))
+// Process inventory deletion
+router.post(
+  "/delete", 
+  utilities.checkAccountType, 
+  utilities.handleErrors(invController.deleteItem)
+)
+
+// ****************************************
+// Public Routes (GET) - UNPROTECTED
+// ****************************************
+
+// List vehicles by classification (Publicly accessible)
+router.get(
+  "/type/:classificationId", 
+  utilities.handleErrors(invController.buildByClassificationId)
+)
+
+// Specific vehicle detail (Publicly accessible)
+router.get(
+  "/detail/:invId", 
+  utilities.handleErrors(invController.getItemDetail)
+)
+
+// Get inventory data in JSON format for the management table
+router.get(
+  "/getInventory/:classification_id", 
+  utilities.handleErrors(invController.getInventoryJSON)
+)
+
+// Route to test the intentional 500 error
+router.get(
+  "/trigger-error", 
+  utilities.handleErrors(invController.throwError)
+)
 
 export default router
