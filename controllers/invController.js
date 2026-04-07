@@ -1,5 +1,6 @@
 import * as invModel from "../models/inventory-model.js"
 import utilities from "../utilities/index.js"
+import reviewModel from "../models/review-model.js"
 
 const invCont = {}
 
@@ -25,22 +26,26 @@ invCont.buildByClassificationId = async function (req, res, next) {
  * ************************** */
 invCont.getItemDetail = async function (req, res, next) {
   const inv_id = req.params.invId
-  const data = await invModel.getInventoryByInventoryId(inv_id)
+  try {
+    const data = await invModel.getInventoryByInventoryId(inv_id)
 
-  if (!data) {
-    const err = new Error('Vehicle not found')
-    err.status = 404
-    return next(err)
+    const stats = await reviewModel.getReviewStats(inv_id)
+    const reviews = await reviewModel.getReviewsByInvId(inv_id)
+
+    const html = await utilities.buildItemDetailHtml(data)
+    let nav = await utilities.getNav()
+
+    res.render("./inventory/detail", {
+      title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
+      nav,
+      grid: html,
+      vehicleData: data,
+      reviews: reviews,
+      stats: stats,
+    })
+  } catch (error) {
+    next(error)
   }
-
-  const html = await utilities.buildItemDetailHtml(data)
-  let nav = await utilities.getNav()
-
-  res.render("./inventory/detail", {
-    title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
-    nav,
-    grid: html,
-  })
 }
 
 /* ***************************
@@ -91,10 +96,10 @@ invCont.addClassification = async function (req, res) {
 
   if (result && result.rowCount > 0) {
     req.flash("success", `The ${classification_name} classification was successfully added.`)
-    res.redirect("/inv") 
+    res.redirect("/inv")
   } else {
     req.flash("error", "Sorry, adding the classification failed.")
-    res.redirect("/inv/add-classification") 
+    res.redirect("/inv/add-classification")
   }
 }
 
@@ -168,7 +173,7 @@ invCont.addInventory = async function (req, res) {
 invCont.getInventoryJSON = async (req, res, next) => {
   const classification_id = parseInt(req.params.classification_id)
   const invData = await invModel.getInventoryByClassificationId(classification_id)
-  
+
   if (Array.isArray(invData)) {
     return res.json(invData)
   } else {
@@ -181,11 +186,11 @@ invCont.getInventoryJSON = async (req, res, next) => {
 invCont.editInventoryView = async function (req, res, next) {
   const inv_id = parseInt(req.params.inv_id)
   let nav = await utilities.getNav()
-  
+
   const itemData = await invModel.getInventoryByInventoryId(inv_id)
   const classificationSelect = await utilities.buildClassificationList(itemData.classification_id)
   const itemName = `${itemData.inv_make} ${itemData.inv_model}`
-  
+
   res.render("./inventory/edit-inventory", {
     title: "Edit " + itemName,
     nav,
@@ -216,7 +221,7 @@ invCont.updateInventory = async function (req, res, next) {
     inv_thumbnail, inv_price, inv_year, inv_miles, inv_color,
     classification_id,
   } = req.body
-  
+
   const updateResult = await invModel.updateInventory(
     inv_id, inv_make, inv_model, inv_description, inv_image,
     inv_thumbnail, inv_price, inv_year, inv_miles, inv_color,
@@ -251,7 +256,7 @@ invCont.deleteView = async function (req, res, next) {
   let nav = await utilities.getNav()
   const itemData = await invModel.getInventoryByInventoryId(inv_id)
   const itemName = `${itemData.inv_make} ${itemData.inv_model}`
-  
+
   res.render("./inventory/delete-confirm", {
     title: "Delete " + itemName,
     nav,
@@ -269,12 +274,12 @@ invCont.deleteView = async function (req, res, next) {
  * ************************** */
 invCont.deleteItem = async function (req, res, next) {
   const inv_id = parseInt(req.body.inv_id)
-  
- 
+
+
   const itemData = await invModel.getInventoryByInventoryId(inv_id)
   if (!itemData) {
-      req.flash("error", "Vehicle not found.")
-      return res.redirect("/inv/")
+    req.flash("error", "Vehicle not found.")
+    return res.redirect("/inv/")
   }
   const class_id = itemData.classification_id
 
@@ -283,7 +288,7 @@ invCont.deleteItem = async function (req, res, next) {
   if (deleteResult && deleteResult.rowCount > 0) {
 
     await invModel.deleteEmptyClassification(class_id)
-    
+
     req.flash("success", "The vehicle was successfully deleted.")
     res.redirect("/inv/")
   } else {

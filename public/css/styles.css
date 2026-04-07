@@ -821,6 +821,117 @@ input[type="submit"]:active {
 }
 
 /* ============================================
+  REview Section enhance part
+   ============================================ */
+
+/* Contenedor Principal */
+.reviews-container {
+  max-width: 800px;
+  margin: 40px auto;
+  font-family: 'Inter', sans-serif; /* O tu fuente principal */
+}
+
+/* Encabezado y Stats */
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.review-stats-badge {
+  text-align: right;
+}
+
+.avg-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.star.filled { color: #f1c40f; }
+.star.empty { color: #e0e0e0; }
+
+/* Caja de Formulario */
+.add-review-box {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-bottom: 40px;
+}
+
+.modern-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #444;
+}
+
+.modern-form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  min-height: 100px;
+  margin-bottom: 15px;
+  resize: vertical;
+}
+
+.btn-primary {
+  background: #2c3e50;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-primary:hover {
+  background: #34495e;
+}
+
+/* Cartas de Reseña Minimalistas */
+.review-card-minimal {
+  padding: 20px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.review-card-minimal:last-child { border-bottom: none; }
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.user-name {
+  font-weight: 700;
+  color: #222;
+  display: block;
+}
+
+.review-date {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.card-body p {
+  line-height: 1.6;
+  color: #555;
+  margin: 0;
+}
+
+.login-notice {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+/* ============================================
    BUTTONS & SPECIAL ELEMENTS
    ============================================ */
 .btn-delete {

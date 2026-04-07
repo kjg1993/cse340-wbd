@@ -1,11 +1,95 @@
-<% if (title) { %>
-  <h1><%= title %></h1>
-<% } else { %>
-  <h1>Vehicle Details</h1>
-<% } %>
-
-<%# messages() %>
+<%- messages() %>
 
 <div class="detail-view">
   <%- grid %>
 </div>
+
+<section class="reviews-container">
+  <div class="reviews-header">
+    <h2>Customer Reviews</h2>
+    <% if (locals.stats && stats.total_reviews > 0) { %>
+      <div class="review-stats-badge">
+        <div class="stats-main">
+          <span class="avg-number"><%= stats.average_rating %></span>
+          <div class="stars-row">
+            <% for(let i=0; i < 5; i++) { %>
+              <span class="star <%= i < Math.round(stats.average_rating) ? 'filled' : 'empty' %>">★</span>
+            <% } %>
+          </div>
+        </div>
+        <p class="stats-count">Based on <%= stats.total_reviews %> <%= stats.total_reviews == 1 ? 'review' : 'reviews' %></p>
+      </div>
+    <% } %>
+  </div>
+
+  <% if (locals.loggedin) { %>
+    <div class="add-review-box">
+      <h3>Write a Review</h3>
+
+      <% if (locals.errors) { %>
+        <div class="error-container">
+          <ul class="error-list">
+            <% errors.array().forEach(error => { %>
+              <li><i class="fas fa-exclamation-circle"></i> <%= error.msg %></li>
+            <% }) %>
+          </ul>
+        </div>
+      <% } %>
+
+      <form action="/review/add" method="post" class="modern-form">
+        <div class="input-group">
+          <label for="review_rating">Rating</label>
+          <select name="review_rating" id="review_rating" required>
+            <option value="">Select a rating...</option>
+            <option value="5" <%= locals.review_rating == '5' ? 'selected' : '' %>>★★★★★ (5 Stars)</option>
+            <option value="4" <%= locals.review_rating == '4' ? 'selected' : '' %>>★★★★☆ (4 Stars)</option>
+            <option value="3" <%= locals.review_rating == '3' ? 'selected' : '' %>>★★★☆☆ (3 Stars)</option>
+            <option value="2" <%= locals.review_rating == '2' ? 'selected' : '' %>>★★☆☆☆ (2 Stars)</option>
+            <option value="1" <%= locals.review_rating == '1' ? 'selected' : '' %>>★☆☆☆☆ (1 Star)</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="review_text">Comment</label>
+          <textarea name="review_text" id="review_text" rows="4" required placeholder="Share your experience with this vehicle..."><%= locals.review_text ? locals.review_text : '' %></textarea>
+        </div>
+
+        <input type="hidden" name="inv_id" value="<%= vehicleData.inv_id %>">
+        <input type="hidden" name="account_id" value="<%= locals.accountData.account_id %>">
+        
+        <button type="submit" class="btn-primary">Post Review</button>
+      </form>
+    </div>
+  <% } else { %>
+    <div class="login-notice">
+      <p>Want to share your experience? <a href="/account/login">Log in</a> to write a review.</p>
+    </div>
+  <% } %>
+
+  <div class="reviews-list">
+    <% if (locals.reviews && reviews.length > 0) { %>
+      <% reviews.forEach(review => { %>
+        <div class="review-card-minimal">
+          <div class="card-header">
+            <div class="user-info">
+              <span class="user-name"><%= review.account_firstname %> <%= review.account_lastname %></span>
+              <span class="review-date"><%= new Date(review.review_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %></span>
+            </div>
+            <div class="card-stars">
+              <% for(let i=0; i < 5; i++) { %>
+                <span class="star <%= i < review.review_rating ? 'filled' : 'empty' %>">★</span>
+              <% } %>
+            </div>
+          </div>
+          <div class="card-body">
+            <p><%= review.review_text %></p>
+          </div>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <div class="empty-state">
+        <p>No reviews yet. Be the first to rate this vehicle!</p>
+      </div>
+    <% } %>
+  </div>
+</section>

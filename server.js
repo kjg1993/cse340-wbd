@@ -17,6 +17,7 @@ import baseController from "./controllers/baseController.js"
 import inventoryRoute from "./routes/inventoryRoute.js"
 import utilities from "./utilities/index.js"
 import accountRoute from "./routes/accountRoute.js"
+import reviewRoute from "./routes/reviewRoute.js"
 
 /* ***********************
  * View Engine and Layouts
@@ -75,6 +76,9 @@ app.get('/', baseController.buildHome);
 
 // Account routes
 app.use("/account", accountRoute)
+
+//Review Routes
+app.use("/review", reviewRoute)
 
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
