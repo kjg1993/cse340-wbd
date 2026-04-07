@@ -824,14 +824,12 @@ input[type="submit"]:active {
   REview Section enhance part
    ============================================ */
 
-/* Contenedor Principal */
 .reviews-container {
   max-width: 800px;
   margin: 40px auto;
-  font-family: 'Inter', sans-serif; /* O tu fuente principal */
+  font-family: 'Inter', sans-serif; 
 }
 
-/* Encabezado y Stats */
 .reviews-header {
   display: flex;
   justify-content: space-between;
@@ -852,7 +850,6 @@ input[type="submit"]:active {
 .star.filled { color: #f1c40f; }
 .star.empty { color: #e0e0e0; }
 
-/* Caja de Formulario */
 .add-review-box {
   background: #ffffff;
   padding: 25px;
@@ -893,7 +890,6 @@ input[type="submit"]:active {
   background: #34495e;
 }
 
-/* Cartas de Reseña Minimalistas */
 .review-card-minimal {
   padding: 20px 0;
   border-bottom: 1px solid #f0f0f0;
@@ -931,6 +927,61 @@ input[type="submit"]:active {
   border-radius: 8px;
 }
 
+#messages {
+  list-style: none;
+  padding: 0;
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+.notice, .success, .error {
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  animation: fadeInDown 0.5s ease-out;
+}
+
+.success {
+  background-color: #f0fff4;
+  color: #276749;
+  border: 1px solid #c6f6d5;
+}
+
+.success::before {
+  content: "✓";
+  margin-right: 12px;
+  font-weight: bold;
+  background: #48bb78;
+  color: white;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 0.7rem;
+}
+
+.notice, .error {
+  background-color: #fffaf0;
+  color: #9c4221;
+  border: 1px solid #feebc8;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 /* ============================================
    BUTTONS & SPECIAL ELEMENTS
    ============================================ */
